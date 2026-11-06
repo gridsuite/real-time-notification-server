@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: real-time-notification-server
+
+  cloud:
+    function:
+      definition: executionNotifications
+    stream:
+      bindings:
+        executionNotifications-in-0:
+          destination: ${powsybl-ws.rabbitmq.destination.prefix:}execution-notifications
+          # No group: the Rabbit binder creates an anonymous queue per instance,
+          # so every instance receives every notification and forwards it to its own websocket clients.
+          consumer:
+            concurrency: 1
+      rabbit:
+        bindings:
+          executionNotifications-in-0:
+            consumer:
+              maxConcurrency: 1
+
+powsybl-ws:
+  autoconfigure:
+    base-exception-handler:
+      enable: false

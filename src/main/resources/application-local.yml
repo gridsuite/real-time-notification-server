@@ -1,0 +1,6 @@
+server:
+  port: 6043
+
+spring:
+  rabbitmq:
+    addresses: localhost
